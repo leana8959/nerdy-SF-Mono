@@ -36,10 +36,18 @@
       packages = {
         SF-Mono = sf-mono-src;
 
-        SF-Mono-nerd-font-mono = mkNerdFont {
-          font = sf-mono-src;
-          extraArgs = ["--name {/.}-NFM" "--use-single-width-glyphs"];
-        };
+        SF-Mono-nerd-font-mono =
+          (mkNerdFont {
+            font = sf-mono-src;
+            extraArgs = ["--name {/.}-NFM" "--use-single-width-glyphs"];
+          })
+          .overrideAttrs (old: {
+            buildPhase = ''
+              mkdir -p nerd-font/
+              echo > nerd-font/a.ttf
+              echo > nerd-font/b.otf
+            '';
+          });
 
         SF-Mono-nerd-font-propo = mkNerdFont {
           font = sf-mono-src;

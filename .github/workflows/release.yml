@@ -22,13 +22,14 @@ jobs:
         nix build .#SF-Mono-nerd-font-mono
         nix build .#SF-Mono-nerd-font-propo
 
-    - name: Prepare for release
-      run: |
-        mkdir -p dist/release
-        cp result/share/fonts/truetype/*.otf dist/release/
+    - name: Get current date
+      id: date
+      run: echo "DATE=$(date +%Y-%m-%d-%Hh%M)" >> $GITHUB_ENV
 
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
+        tag_name: "${{ env.DATE }}"
         files: |
-          dist/release/*.otf
+          result/share/fonts/truetype/*.ttf
+          result/share/fonts/truetype/*.otf

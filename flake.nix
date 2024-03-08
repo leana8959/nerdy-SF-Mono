@@ -2,22 +2,24 @@
   description = "A customized nerd font of Iosevka, with Haskell and ML ligatures";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixunstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    dotfiles.url = "git+https://git.earth2077.fr/leana/.files?dir=nix";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
+    dotfiles = {
+      url = "git+https://git.earth2077.fr/leana/.files?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixunstable.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     self,
     nixpkgs,
-    nixunstable,
     flake-utils,
     dotfiles,
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
-      unstable = import nixunstable {inherit system;};
 
       inherit (dotfiles.lib.${system}) mkNerdFont;
 

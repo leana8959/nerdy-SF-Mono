@@ -35,4 +35,4 @@ jobs:
         tag_name: "${{ env.DATE }}"
         files: |
           result/share/fonts/truetype/*.ttf
-          result/share/fonts/truetype/*.otf
+          result/share/fonts/opentype/*.otf

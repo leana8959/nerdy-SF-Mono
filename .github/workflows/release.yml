@@ -22,8 +22,13 @@ jobs:
 
     - name: Build
       run: |
+        mkdir -p dist/release
+
         nix build .#SF-Mono-nerd-font-mono
+        cp result/share/fonts/*/* dist/release
+
         nix build .#SF-Mono-nerd-font-propo
+        cp result/share/fonts/*/* dist/release
 
     - name: Get current date
       id: date
@@ -34,5 +39,4 @@ jobs:
       with:
         tag_name: "${{ env.DATE }}"
         files: |
-          result/share/fonts/truetype/*.ttf
-          result/share/fonts/opentype/*.otf
+          dist/release/*

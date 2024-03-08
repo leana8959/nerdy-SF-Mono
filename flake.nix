@@ -40,7 +40,6 @@
           font = sf-mono-src;
           extraArgs = ["--name {/.}-NFM" "--use-single-width-glyphs"];
         };
-
         SF-Mono-nerd-font-propo = mkNerdFont {
           font = sf-mono-src;
           extraArgs = ["--name {/.}-NFP" "--variable-width-glyphs"];

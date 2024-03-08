@@ -64,37 +64,6 @@
         "type": "github"
       }
     },
-    "dotfiles": {
-      "inputs": {
-        "agenix": "agenix",
-        "audio-lint": "audio-lint",
-        "flake-utils": "flake-utils",
-        "hbrainfuck": "hbrainfuck",
-        "home-manager": "home-manager_2",
-        "llama-cpp": "llama-cpp",
-        "nix-darwin": "nix-darwin",
-        "nixnur": "nixnur",
-        "nixpkgs": "nixpkgs_6",
-        "nixunstable": "nixunstable",
-        "opam-nix": "opam-nix",
-        "wired": "wired"
-      },
-      "locked": {
-        "dir": "nix",
-        "lastModified": 1709899929,
-        "narHash": "sha256-teVLXvy9bUYK7SUAPZ6EM8WBSlg9q5Jg+SD7yI0/Jac=",
-        "ref": "refs/heads/main",
-        "rev": "80ad5c5f131920e104e2f5c2705acd2de8a12651",
-        "revCount": 1289,
-        "type": "git",
-        "url": "https://git.earth2077.fr/leana/.files?dir=nix"
-      },
-      "original": {
-        "dir": "nix",
-        "type": "git",
-        "url": "https://git.earth2077.fr/leana/.files?dir=nix"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -693,7 +662,6 @@
     },
     "root": {
       "inputs": {
-        "dotfiles": "dotfiles",
         "flake-utils": "flake-utils_5",
         "nixpkgs": "nixpkgs_10",
         "nixunstable": "nixunstable_2"

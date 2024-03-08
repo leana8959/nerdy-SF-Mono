@@ -23,7 +23,7 @@ jobs:
     - name: Build
       run: |
         nix build .#SF-Mono-nerd-font-mono
-        nix build .#SF-Mono-nerd-font-propo
+        # nix build .#SF-Mono-nerd-font-propo
 
     - name: Get current date
       id: date

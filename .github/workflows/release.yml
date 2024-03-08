@@ -1,0 +1,32 @@
+name: "Release"
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install nix
+      uses: cachix/install-nix-action@v25
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build
+      run: nix build
+
+    - name: Prepare for release
+      run: |
+        mkdir -p dist/release
+        cp result/share/fonts/truetype/*.otf dist/release/
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/release/*.otf

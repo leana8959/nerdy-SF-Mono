@@ -27,7 +27,7 @@
         name = "SF-Mono";
         src = ./.;
         buildPhase = ''
-          fontdir="$out"/share/fonts/truetype
+          fontdir="$out"/share/fonts/opentype
           install -d $fontdir
           cp ./fonts/* "$fontdir"
         '';

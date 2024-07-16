@@ -1,52 +1,57 @@
 {
-  description = "A customized nerd font of Iosevka, with Haskell and ML ligatures";
+  description = "SF Mono patched with NerdFont characters";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
 
     dotfiles = {
-      url = "git+https://git.earth2077.fr/leana/.files?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixunstable.follows = "nixpkgs";
+      url = "github:leana8959/.files";
+      flake = false;
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    dotfiles,
-  }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = import nixpkgs {inherit system;};
+  outputs =
+    inputs:
+    inputs.flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import inputs.nixpkgs { inherit system; };
 
-      inherit (dotfiles.lib.${system}) mkNerdFont;
+        mkNerdFont = pkgs.callPackage (inputs.dotfiles + "/nix/custom/mkNerdFont.nix") { };
 
-      sf-mono-src = pkgs.stdenvNoCC.mkDerivation {
-        name = "SF-Mono";
-        src = ./.;
-        buildPhase = ''
-          fontdir="$out"/share/fonts/opentype
-          install -d $fontdir
-          cp ./fonts/* "$fontdir"
-        '';
-      };
-    in {
-      formatter = pkgs.alejandra;
-
-      packages = {
-        SF-Mono = sf-mono-src;
-
-        SF-Mono-nerd-font-mono = mkNerdFont {
-          font = sf-mono-src;
-          extraArgs = ["--name {/.}-NFM" "--use-single-width-glyphs"];
+        sf-mono-src = pkgs.stdenvNoCC.mkDerivation {
+          name = "SF-Mono";
+          src = ./.;
+          buildPhase = ''
+            fontdir="$out"/share/fonts/opentype
+            install -d $fontdir
+            cp ./fonts/* "$fontdir"
+          '';
         };
+      in
+      {
+        formatter = pkgs.nixfmt-rfc-style;
 
-        SF-Mono-nerd-font-propo = mkNerdFont {
-          font = sf-mono-src;
-          extraArgs = ["--name {/.}-NFP" "--variable-width-glyphs"];
+        packages = {
+          SF-Mono = sf-mono-src;
+
+          SF-Mono-nerd-font-mono = mkNerdFont {
+            font = sf-mono-src;
+            extraArgs = [
+              "--name {/.}-NFM"
+              "--use-single-width-glyphs"
+            ];
+          };
+
+          SF-Mono-nerd-font-propo = mkNerdFont {
+            font = sf-mono-src;
+            extraArgs = [
+              "--name {/.}-NFP"
+              "--variable-width-glyphs"
+            ];
+          };
         };
-      };
-    });
+      }
+    );
 }

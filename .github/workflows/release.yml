@@ -25,10 +25,10 @@ jobs:
         mkdir -p dist/release
 
         nix build .#SF-Mono-nerd-font-mono
-        cp result/share/fonts/*/* dist/release
+        tar cf dist/release/SF-Mono-nerd-font-mono.tar result/share/fonts/*/*
 
         nix build .#SF-Mono-nerd-font-propo
-        cp result/share/fonts/*/* dist/release
+        tar cf dist/release/SF-Mono-nerd-font-propo.tar result/share/fonts/*/*
 
     - name: Get current date
       id: date

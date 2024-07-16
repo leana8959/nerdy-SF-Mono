@@ -6,7 +6,7 @@
     flake-utils.url = "github:numtide/flake-utils";
 
     dotfiles = {
-      url = "github:leana8959/.files";
+      url = "git+https://git.earth2077.fr/leana/.files";
       flake = false;
     };
   };

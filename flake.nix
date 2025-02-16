@@ -2,36 +2,30 @@
   description = "SF Mono patched with NerdFont characters";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
 
-    dotfiles = {
-      url = "git+https://git.earth2077.fr/leana/.files";
-      flake = false;
-    };
+    dotfiles.url = "git+https://git.earth2077.fr/leana/.files";
   };
 
-  outputs =
-    inputs:
+  outputs = inputs:
     inputs.flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import inputs.nixpkgs { inherit system; };
+      system: let
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
 
-        mkNerdFont = pkgs.callPackage (inputs.dotfiles + "/nix/custom/mkNerdFont.nix") { };
+        mkNerdFont = pkgs.callPackage inputs.dotfiles.lib.mkNerdFont {};
 
         sf-mono-src = pkgs.stdenvNoCC.mkDerivation {
           name = "SF-Mono";
-          src = ./.;
+          src = ./fonts;
           buildPhase = ''
             fontdir="$out"/share/fonts/opentype
             install -d $fontdir
-            cp ./fonts/* "$fontdir"
+            cp ./* "$fontdir"
           '';
         };
-      in
-      {
-        formatter = pkgs.nixfmt-rfc-style;
+      in {
+        formatter = pkgs.alejandra;
 
         packages = {
           SF-Mono = sf-mono-src;
